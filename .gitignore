@@ -1,2 +1,5 @@
 .DS_Store
 .vs/Final_Project/xs
+.vs/*
+obj*
+bin*
