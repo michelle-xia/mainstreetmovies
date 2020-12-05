@@ -1,0 +1,30 @@
+﻿@model Final_Project.Models.PublishViewModel
+
+@{
+    ViewData["Title"] = "SelectPublishDate";
+}
+<br>
+
+<h1>Select Date To Publish</h1>
+<hr />
+<p class="text-danger">@ViewBag.ErrorMessage</p>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="PublishSelectedDate">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DateSelected" class="control-label"></label>
+                <input asp-for="DateSelected" class="form-control" />
+                <span asp-validation-for="DateSelected" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Publish" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

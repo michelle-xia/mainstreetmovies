@@ -1,0 +1,132 @@
+﻿@model Final_Project.Models.MovieOrder
+
+@{
+    ViewData["Title"] = "Details";
+}
+<br>
+
+<h1>Details</h1>
+
+<div>
+    <h4>MovieOrder</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.OrderStatus)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OrderStatus)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Customer.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Customer.Email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Customer.FullName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Customer.FullName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ConfirmationNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ConfirmationNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.isConfirmed)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.isConfirmed)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.isGift)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.isGift)
+        </dd>
+        @if (Model.isGift == true)
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Recipient)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Recipient.FullName)
+            </dd>
+        }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DateOrdered)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DateOrdered)
+        </dd>
+
+    </dl>
+</div>
+<h5>Movie Tickets on this Order</h5>
+<table class="table table-primary">
+    <tr>
+        <th>Title</th>
+        <th>Show Time</th>
+        <th>Seat</th>
+        <th>Price</th>
+        <th>Type of Price</th>
+        <th>Senior Discount</th>
+    </tr>
+    @foreach (Ticket rd in Model.Tickets)
+    {
+        <tr>
+            <td>@Html.DisplayFor(ModelItem => rd.MovieShowing.Movie.Title)</td>
+            <td>@Html.DisplayFor(ModelItem => rd.MovieShowing.StartTime)</td>
+            <td>@Html.DisplayFor(ModelItem => rd.Seat)</td>
+            <td>@Html.DisplayFor(ModelItem => rd.TicketPrice)</td>
+            <td>@Html.DisplayFor(ModelItem => rd.Discount)</td>
+            <td>@Html.DisplayFor(ModelItem => rd.SeniorDiscount)</td>
+        </tr>
+    }
+</table>
+
+<h5>Order Summary</h5>
+<table class="table table-sm table-bordered" style="width:30%">
+    <tr>
+        <th colspan="2" style="text-align:center">Order Summary</th>
+    </tr>
+    <tr>
+        <td>Order Subtotal:</td>
+        <td>@Html.DisplayFor(model => model.SubTotal)</td>
+    </tr>
+    <tr>
+        <td>Tax:</td>
+        <td>@Html.DisplayFor(model => model.Tax)</td>
+    </tr>
+    <tr>
+        <td>Senior Discount:</td>
+        <td>@Html.DisplayFor(model => model.OrderDiscount)</td>
+    </tr>
+    <tr>
+        <td>Using Popcorn Points:</td>
+        <td>@Html.DisplayFor(model => model.UsingPopcornPoints)</td>
+    </tr>
+    @if (Model.UsingPopcornPoints == true)
+    {
+        <tr>
+            <td>Popcorn Points Paid:</td>
+            <td>@Html.DisplayFor(model => model.PopcornPointsCost)</td>
+        </tr>
+    }
+    <tr>
+        <td>Order Total:</td>
+        <td>@Html.DisplayFor(model => model.Total)</td>
+    </tr>
+
+</table>
+<div>
+    @if (Model.isConfirmed == false || Model.OrderStatus == Status.Unfinished)
+    {
+        <a asp-action="Edit" asp-route-id="@Model.MovieOrderID">Edit</a>
+        <span>|</span>
+    }
+    <a asp-action="Index">Back to List</a>
+</div>

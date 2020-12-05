@@ -1,0 +1,71 @@
+@model Final_Project.Models.SearchViewModel
+
+@{ ViewData["Title"] = "DetailedSearch"; }
+<br>
+
+<h1>Detailed Search</h1>
+
+<hr />
+<form asp-action="DisplaySearchResults" method="get">
+    <div class="row">
+        <div class="col-md-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SearchTitle" class="control-label"></label>
+                <input asp-for="SearchTitle" class="form-control" />
+                <span asp-validation-for="SearchTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SearchTagline" class="control-label"></label>
+                <input asp-for="SearchTagline" class="form-control" />
+                <span asp-validation-for="SearchTagline" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SearchGenre" class="control-label"></label>
+                @Html.DropDownListFor(model => model.SearchGenre, (SelectList)ViewBag.AllGenres, new { @class = "form-control" })
+                <span asp-validation-for="SearchGenre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SearchReleaseYear" class="control-label"></label>
+                <input asp-for="SearchReleaseYear" class="form-control" />
+                <span asp-validation-for="SearchReleaseYear" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SearchMPAARating" class="control-label"></label><br />
+                <input type="radio" class="radio" asp-for="SearchMPAARating" value="@MPAARatings.G" /> G<br>
+                <input type="radio" class="radio" asp-for="SearchMPAARating" value="@MPAARatings.PG" /> PG<br>
+                <input type="radio" class="radio" asp-for="SearchMPAARating" value="@MPAARatings.PG13 " /> PG-13<br>
+                <input type="radio" class="radio" asp-for="SearchMPAARating" value="@MPAARatings.NC17" /> NC-17<br>
+                <input type="radio" class="radio" asp-for="SearchMPAARating" value="@MPAARatings.R" /> R<br>
+                <input type="radio" class="radio" asp-for="SearchMPAARating" value="@MPAARatings.Unrated" /> Unrated<br>
+            </div>
+            <div class="form-group">
+                <label asp-for="SearchActor" class="control-label"></label>
+                <input asp-for="SearchActor" class="form-control" />
+                <span asp-validation-for="SearchActor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinimumRating" class="control-label"></label>
+                <input asp-for="MinimumRating" class="form-control" />
+                <span asp-validation-for="MinimumRating" class="text-danger"></span>
+            </div>
+            <p class="text-danger">@ViewBag.ErrorMessage</p>
+            <div class="form-group">
+                <label asp-for="MaximumRating" class="control-label"></label>
+                <input asp-for="MaximumRating" class="form-control" />
+                <span asp-validation-for="MaximumRating" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

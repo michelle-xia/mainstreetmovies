@@ -1,0 +1,55 @@
+@model Final_Project.Models.MovieShowing
+
+@{
+    ViewData["Title"] = "Details";
+}
+<br>
+
+<h1>Details</h1>
+
+<div>
+    <h4>MovieShowing</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Movie)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Movie.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StartTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StartTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EndTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EndTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TheaterSelection)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TheaterSelection)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IsSpecial)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IsSpecial)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IsPublished)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IsPublished)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.MovieShowingID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

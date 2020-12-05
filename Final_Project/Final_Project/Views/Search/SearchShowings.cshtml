@@ -1,0 +1,35 @@
+﻿@model Final_Project.Models.SearchViewModel
+
+@{ ViewData["Title"] = "DetailedSearch"; }
+<br>
+
+<h1>Search Showings</h1>
+
+<hr />
+<p class="text-danger">@ViewBag.ErrorMessage</p>
+<form asp-action="DisplayShowings" method="get">
+    <div class="row">
+        <div class="col-md-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SearchDateStart" class="control-label"></label>
+                <input asp-for="SearchDateStart" class="form-control" />
+                <span asp-validation-for="SearchDateStart" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SearchDateEnd" class="control-label"></label>
+                <input asp-for="SearchDateEnd" class="form-control" />
+                <span asp-validation-for="SearchDateEnd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -1,0 +1,59 @@
+﻿@model Final_Project.Models.MovieOrder
+
+@{
+    ViewData["Title"] = "SellToCustomer";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    @if (User.IsInRole("Employee") || User.IsInRole("Manager"))
+    {
+        <br>
+
+        <h1>Create Movie Order For Customer</h1>
+        <p>
+            <a asp-action="Register" asp-controller="Account">Register New Customer</a>
+        </p>
+        <h4>MovieOrder</h4>
+        <hr />
+        <p class="text-danger">@ViewBag.ErrorMessage</p>
+        <p class="text-danger">@ViewBag.GiftError</p>
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label class="control-label">Movies:</label>
+                        @Html.DropDownList("SelectedMovie", (SelectList)ViewBag.AllMovies, new { @class = "form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Customers:</label>
+                        @Html.DropDownList("SelectedCustomer", (SelectList)ViewBag.AllCustomers, new { @class = "form-control" })
+                    </div>
+
+                    <div class="form-group form-check form-check-inline">
+                        <label asp-for="UsingPopcornPoints" class="control-label"></label>
+                        <input asp-for="UsingPopcornPoints" class="form-control" />
+                        <span asp-validation-for="UsingPopcornPoints" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="GiftRecipient" class="control-label"></label>
+                        <input asp-for="GiftRecipient" class="form-control" />
+                        <span asp-validation-for="GiftRecipient" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+
+    }
+}

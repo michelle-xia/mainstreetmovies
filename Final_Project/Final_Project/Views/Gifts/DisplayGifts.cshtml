@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Final_Project.Models.MovieOrder>
+
+@{
+    ViewData["Title"] = "GiftedOrders";
+}
+
+<h1>Gifts Received</h1>
+@if (User.Identity.IsAuthenticated)
+{
+    @if (User.IsInRole("Customer"))
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ConfirmationNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.isConfirmed)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.isGift)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DateOrdered)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OrderStatus)
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    @if (item.OrderStatus != Status.Unfinished)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ConfirmationNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.isConfirmed)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.isGift)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DateOrdered)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OrderStatus)
+                            </td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@item.MovieOrderID">Details</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+    }
+}

@@ -1,0 +1,93 @@
+﻿@model Final_Project.Models.MovieOrder
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<br>
+
+<h1>Edit</h1>
+
+<h4>MovieOrder</h4>
+<hr />
+<p class="text-danger">@ViewBag.ErrorMessage</p>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="MovieOrderID" />
+
+            <div class="form-group">
+                <label asp-for="Customer.FullName" class="control-label"></label>
+                @Html.DisplayFor(Model => Model.Customer.FullName, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label asp-for="Customer.Email" class="control-label"></label>
+                @Html.DisplayFor(Model => Model.Customer.Email, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOrdered" class="control-label"></label>
+                @Html.DisplayFor(Model => Model.DateOrdered, new { @class = "form-control" })
+            </div>
+            <div class="form-group form-check form-check-inline">
+                <label asp-for="UsingPopcornPoints" class="control-label"></label>
+                <input asp-for="UsingPopcornPoints" class="form-control" />
+                <span asp-validation-for="UsingPopcornPoints" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Complete Order" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<h5>Movie Tickets on this Order</h5>
+<table class="table table-primary">
+    <tr>
+        <th>Title</th>
+        <th>Show Time</th>
+        <th>Seat</th>
+        <th>Price</th>
+        <th>Discount</th>
+    </tr>
+    @foreach (Ticket rd in Model.Tickets)
+    {
+        <tr>
+            <td>@Html.DisplayFor(ModelItem => rd.MovieShowing.Movie.Title)</td>
+            <td>@Html.DisplayFor(ModelItem => rd.MovieShowing.StartTime)</td>
+            <td>@Html.DisplayFor(ModelItem => rd.Seat)</td>
+            <td>@Html.DisplayFor(ModelItem => rd.TicketPrice)</td>
+            <td>@Html.DisplayFor(ModelItem => rd.Discount)</td>
+        </tr>
+    }
+</table>
+
+<h5>Order Summary</h5>
+<table class="table table-sm table-bordered" style="width:30%">
+    <tr>
+        <th colspan="2" style="text-align:center">Order Summary</th>
+    </tr>
+    <tr>
+        <td>Order Subtotal:</td>
+        <td>@Html.DisplayFor(model => model.SubTotal)</td>
+    </tr>
+    <tr>
+        <td>Tax:</td>
+        <td>@Html.DisplayFor(model => model.Tax)</td>
+    </tr>
+    <tr>
+        <td>Senior Discount:</td>
+        <td>@Html.DisplayFor(model => model.OrderDiscount)</td>
+    </tr>
+    <tr>
+        <td>Order Total:</td>
+        <td>@Html.DisplayFor(model => model.Total)</td>
+    </tr>
+
+</table>
+
+<div>
+    <a asp-action="Create" asp-controller="Tickets" asp-route-movieOrderID="@Model.MovieOrderID" class="btn btn-warning">Add Another Item</a>
+    <a asp-action="Index" asp-controller="Tickets" asp-route-movieOrderID="@Model.MovieOrderID" class="btn btn-danger">Edit Existing Items</a>
+</div>
+

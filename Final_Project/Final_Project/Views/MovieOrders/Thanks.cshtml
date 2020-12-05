@@ -1,0 +1,23 @@
+﻿@model Final_Project.Models.MovieOrder
+
+@{
+    ViewData["Title"] = "Thanks";
+}
+<br>
+
+<h1>Thank you for confirming your order!</h1>
+
+<div>
+    <hr />
+    <div>
+        @Html.DisplayNameFor(model => model.ConfirmationNumber)
+    </div>
+    <div>
+        @Html.DisplayFor(model => model.ConfirmationNumber)
+    </div>
+</div>
+
+<br>
+<div>
+    <a asp-controller="Home" asp-action="Index">Back to Home</a>
+</div>

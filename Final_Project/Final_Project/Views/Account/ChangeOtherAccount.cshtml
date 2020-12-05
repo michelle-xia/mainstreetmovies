@@ -1,0 +1,77 @@
+﻿@model ChangeAccountViewModel
+
+@{
+    ViewData["Title"] = "Change Other Account";
+}
+<br>
+
+<h1>Change Account Settings</h1>
+
+<hr />
+<p class="text-danger">@ViewBag.BirthdayErrorMessage</p>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ChangeOtherAccount" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                @if (User.IsInRole("Manager"))
+                {
+                    <div class="form-group">
+                        <label asp-for="NewFirst" class="control-label"></label>
+                        <input asp-for="NewFirst" class="form-control" />
+                        <span asp-validation-for="NewFirst" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NewMiddle" class="control-label"></label>
+                        <input asp-for="NewMiddle" class="form-control" />
+                        <span asp-validation-for="NewMiddle" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NewLast" class="control-label"></label>
+                        <input asp-for="NewLast" class="form-control" />
+                        <span asp-validation-for="NewLast" class="text-danger"></span>
+                    </div>
+                }
+            }
+            <div class="form-group">
+                <label asp-for="NewPhoneNumber" class="control-label"></label>
+                <input asp-for="NewPhoneNumber" class="form-control" />
+                <span asp-validation-for="NewPhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewBirthday" class="control-label"></label>
+                <input asp-for="NewBirthday" class="form-control" />
+                <span asp-validation-for="NewBirthday" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewAddress" class="control-label"></label>
+                <input asp-for="NewAddress" class="form-control" />
+                <span asp-validation-for="NewAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewCity" class="control-label"></label>
+                <input asp-for="NewCity" class="form-control" />
+                <span asp-validation-for="NewCity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewState" class="control-label"></label>
+                <input asp-for="NewState" class="form-control" />
+                <span asp-validation-for="NewState" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewZip" class="control-label"></label>
+                <input asp-for="NewZip" class="form-control" />
+                <span asp-validation-for="NewZip" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Change Account Settings" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+
+    <a asp-controller="Home" asp-action="Index">Back to Home</a>
+</div>

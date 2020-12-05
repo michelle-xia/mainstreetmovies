@@ -1,0 +1,93 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/css/StyleSheet.css" rel="stylesheet" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top p-2">
+        <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+            <img class="navbar-logo" src="~/images/Logo.png" />
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-content" aria-controls="nav-content" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="nav-content">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a asp-controller="Home" asp-action="Index" class="nav-link" controller="Home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a asp-controller="Search" asp-action="Index" class="nav-link">Movies</a>
+                </li>
+                <li class="nav-item">
+                    <a asp-controller="Search" asp-action="DisplayShowings" class="nav-link">Showings</a>
+                </li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <a asp-controller="MovieOrders" asp-action="Index" class="nav-link" controller="MovieOrders">Orders</a>
+                    </li>
+                    @if (User.IsInRole("Customer"))
+                    {
+                        <li class="nav-item">
+                            <a asp-controller="Gifts" asp-action="DisplayGifts" class="nav-link">Gifts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="MovieReviews" asp-action="Index" class="nav-link">Reviews</a>
+                        </li>
+                        <li>
+                            <a asp-action="GetRecommendations" asp-controller="MovieOrders" class="nav-link">See Movie Recommendations</a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Manager") || User.IsInRole("Employee"))
+                    {
+                        <li>
+                            <a asp-controller="MovieOrders" asp-action="SelectCustomer" class="nav-link">Customer Order</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="MovieReviews" asp-action="Index" class="nav-link">Approve Reviews</a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Manager"))
+                    {
+                        <li>
+                            <a asp-controller="RoleAdmin" asp-action="Index" class="nav-link">Manage Users</a>
+                        </li>
+                        <li>
+                            <a asp-controller="MovieShowings" asp-action="Index" class="nav-link">Schedule</a>
+                        </li>
+                        <li>
+                            <a asp-action="Index" asp-controller="Report" class="nav-link" controller="Report">Report</a>
+                        </li>
+                        <li>
+                            <a asp-action="Index" asp-controller="Prices" class="nav-link">Prices</a>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+        @await Html.PartialAsync("_LoginPartial")
+    </nav>
+
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+    <div class="footer d-flex justify-content-center align-items-center">
+        <a asp-controller="Home" asp-action="Team19">Created with💗 by Team 19</a>
+    </div>
+    <script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/popper.js/popper.js"></script>
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/js/main.js"></script>
+</body>
+</html>

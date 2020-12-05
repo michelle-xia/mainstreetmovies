@@ -1,0 +1,113 @@
+@model IEnumerable<Final_Project.Models.Movie>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<br>
+
+<h1>Movies</h1>
+<img class="pb-4 graphic" src="~/images/svg/Movies.svg"/>
+<p class="form-group">
+    <a asp-action="SearchShowings" class="btn btn-primary">Search Showings</a> <a asp-action="DetailedSearch" class="btn btn-success">Search Movies</a> <a asp-action="Index" class="btn btn-danger">Show All Movies</a>
+</p>
+
+Displaying @ViewBag.SelectedMovies out of @ViewBag.AllMovies Movies
+</ hr>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genre.GenreName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tagline)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReleaseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MPAARating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerRating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Runtime)
+            </th>
+            <th>
+                Upcoming Showtimes
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre.GenreName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tagline)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MPAARating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerRating)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Runtime)
+                </td>
+                <td>
+                    @foreach (MovieShowing ms in item.MovieShowings)
+                    {
+                        @Html.DisplayFor(modelItem => ms.StartTime)
+                        <br>
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.MovieId })
+                </td>
+                @if (User.Identity.IsAuthenticated == true)
+                {
+                    @if (User.IsInRole("Customer"))
+                    {
+                        <td>
+                            @if (User.Identity.IsAuthenticated == true)
+                            {
+                                @if (User.IsInRole("Customer"))
+                                {
+                                    <div>
+                                        @if (item.MovieShowings.Count() > 0)
+                                        {
+                                            <form asp-action="Create" asp-route-SelectedMovie="@item.MovieId" asp-controller="MovieOrders">
+                                                <input type="hidden" asp-for="@item.MovieId" />
+                                                <input type="submit" value="Buy Tickets" class="btn btn-success" />
+                                            </form>
+                                        }
+                                        <a asp-action="Create" asp-controller="MovieReviews" class="btn btn-primary">Create Movie Review</a>
+                                    </div>
+
+                                }
+                            }
+                        </td>
+
+                    }
+                }
+            </tr>
+}
+    </tbody>
+</table>
+

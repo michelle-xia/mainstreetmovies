@@ -1,0 +1,34 @@
+﻿@model IndexViewModel
+@{
+    ViewBag.Title = "Details";
+}
+<br>
+
+<div>
+    <h4>User account settings</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Welcome! </dt>
+        <dd>@Model.FullName</dd>
+        <dt>User Name:</dt>
+        <dd>@Model.UserName</dd>
+
+
+        <dt>Email:</dt>
+        <dd>@Model.Email</dd>
+        <dt>Birthday:</dt>
+        <dd>@Model.Birthday</dd>
+        <dt>Phone Number:</dt>
+        <dd>@Model.PhoneNumber</dd>
+        <dt>Full Address:</dt>
+        <dd>@Model.FullAddress</dd>
+        <dt>Role Name:</dt>
+        <dd>@Model.Role</dd>
+        <dt>Total Popcorn Points:</dt>
+        <dd>@Model.TotalPopcornPoints</dd>
+        <dd>
+            <a asp-action="SeeAll" asp-controller="Account" class="btn btn-outline-danger">Back to All Accounts</a>
+
+        </dd>
+    </dl>
+</div>

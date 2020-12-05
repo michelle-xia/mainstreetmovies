@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Final_Project.Models.MovieShowing>
+
+@{
+    ViewData["Title"] = "Showings";
+}
+<br>
+
+<h1>Showings</h1>
+<img class="pb-4 graphic" src="~/images/svg/Showings.svg" />
+
+<p class="form-group">
+    <a asp-action="SearchShowings" class="btn btn-primary">Search Showings</a> <a asp-action="DetailedSearch" class="btn btn-success">Search Movies</a> <a asp-action="DisplayShowings" class="btn btn-danger">Show All Showings</a>
+</p>
+
+Displaying @ViewBag.SelectedShowings out of @ViewBag.AllShowings Showings
+</ hr>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie.MPAARating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie.CustomerRating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SeatsAvailable)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Movie.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Movie.MPAARating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Movie.CustomerRating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberSeatsAvailable)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.Movie.MovieId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

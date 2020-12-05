@@ -1,0 +1,321 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@model IEnumerable<Final_Project.Models.MovieOrder>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<br>
+
+<h1>Order History</h1>
+@if (User.Identity.IsAuthenticated)
+{
+    @if (User.IsInRole("Customer"))
+    {
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+    }
+    @if (User.IsInRole("Manager") || User.IsInRole("Employee"))
+    {
+        <p>
+            <a asp-action="SelectCustomer">Create Order for Customer</a>
+        </p>
+    }
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    @if (User.IsInRole("Customer"))
+    {
+        <h5><a asp-action="GetRecommendations" class="btn btn-primary" >See Movie Recommendations</a></h5>
+
+    }
+}
+<h5>Future Orders</h5>
+
+<table class="table-success">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ConfirmationNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isConfirmed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isGift)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsingPopcornPoints)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOrdered)
+            </th>
+            <th>
+                Ordered By
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderStatus)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @if (item.OrderStatus == Status.Future)
+            {
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ConfirmationNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.isConfirmed)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.isGift)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UsingPopcornPoints)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOrdered)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Customer.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderStatus)
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.MovieOrderID">Details</a>
+
+                        @if (item.isConfirmed == true && item.OrderStatus != Status.Cancelled)
+                        {
+                            <span>|</span>
+                            <a asp-action="Cancel" asp-route-id="@item.MovieOrderID">Cancel</a>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<br />
+
+<h5>Past Orders</h5>
+
+<table class="table-primary">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ConfirmationNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isConfirmed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isGift)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsingPopcornPoints)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOrdered)
+            </th>
+            <th>
+                Ordered By
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderStatus)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @if (item.OrderStatus == Status.Past)
+            {
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ConfirmationNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.isConfirmed)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.isGift)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UsingPopcornPoints)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOrdered)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Customer.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderStatus)
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.MovieOrderID">Details</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<br />
+
+<h5>Unfinished Orders</h5>
+
+<table class="table-danger">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ConfirmationNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isConfirmed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isGift)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsingPopcornPoints)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOrdered)
+            </th>
+            <th>
+                Ordered By
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderStatus)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @if (item.OrderStatus == Status.Unfinished)
+            {
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ConfirmationNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.isConfirmed)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.isGift)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UsingPopcornPoints)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOrdered)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Customer.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderStatus)
+                    </td>
+                    <td>
+                        @if (item.isConfirmed == false || item.OrderStatus == Status.Unfinished)
+                        {
+
+                            <a asp-action="Edit" asp-route-id="@item.MovieOrderID">Edit</a>
+                            <span>|</span>
+                        }
+                        <a asp-action="Details" asp-route-id="@item.MovieOrderID">Details</a>
+
+                        @if (item.isConfirmed == true && item.OrderStatus != Status.Cancelled)
+                        {
+                            <span>|</span>
+                            <a asp-action="Cancel" asp-route-id="@item.MovieOrderID">Cancel</a>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<br />
+<h5>Cancelled Orders</h5>
+
+<table class="table-secondary">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ConfirmationNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isConfirmed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isGift)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsingPopcornPoints)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOrdered)
+            </th>
+            <th>
+                Ordered By
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderStatus)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @if (item.OrderStatus == Status.Cancelled)
+            {
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ConfirmationNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.isConfirmed)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.isGift)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UsingPopcornPoints)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOrdered)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Customer.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderStatus)
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.MovieOrderID">Details</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

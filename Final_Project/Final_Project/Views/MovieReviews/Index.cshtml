@@ -1,0 +1,70 @@
+@model IEnumerable<Final_Project.Models.MovieReview>
+
+@{
+    ViewData["Title"] = "MovieReviews";
+}
+<br>
+
+<h1>Movie Reviews</h1>
+<img class="graphic pb-4" src="~/images/svg/Review.svg" />
+
+@if (User.Identity.IsAuthenticated)
+{
+
+    @if (User.IsInRole("Customer"))
+    {
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+    }
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullReview)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Approved)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Movie.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullReview)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Approved)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.MovieReviewID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.MovieReviewID">Details</a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+
+                        @if (User.IsInRole("Employee") || User.IsInRole("Manager"))
+                        {
+                            <a asp-action="ApproveReview" asp-route-id="@item.MovieReviewID">| Approve</a>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

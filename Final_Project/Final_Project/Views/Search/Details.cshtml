@@ -1,0 +1,147 @@
+@model Final_Project.Models.Movie
+
+@{ ViewData["Title"] = "Details"; }
+<br>
+
+<h1>Details</h1>
+
+<div>
+    <h4>Movie</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UniqueIdentifier)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UniqueIdentifier)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Tagline)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Tagline)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Genre.GenreName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Genre.GenreName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ReleaseYear)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ReleaseYear)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ReleaseDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ReleaseDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MPAARating)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MPAARating)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CustomerRating)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CustomerRating)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MovieOverview)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MovieOverview)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Actors)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Actors)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Runtime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Runtime)
+        </dd>
+    </dl>
+</div>
+
+<h5>Showings for this Movie</h5>
+<table class="table table-primary">
+    <tr>
+        <th>Title</th>
+        <th>Start Time</th>
+    </tr>
+    @foreach (MovieShowing rd in Model.MovieShowings)
+    {
+        <tr>
+            <td>@Html.DisplayFor(ModelItem => rd.Movie.Title)</td>
+            <td>@Html.DisplayFor(ModelItem => rd.StartTime)</td>
+        </tr>
+    }
+</table>
+
+<h5>Reviews for this Movie</h5>
+<table class="table table-primary">
+    <tr>
+        <th>Rating</th>
+        <th>Full Review</th>
+    </tr>
+    @foreach (MovieReview rd in Model.MovieReviews)
+    {
+        <tr>
+            <td>@Html.DisplayFor(ModelItem => rd.Rating)</td>
+            <td>@Html.DisplayFor(ModelItem => rd.FullReview)</td>
+        </tr>
+    }
+</table>
+<div>
+    @if (User.Identity.IsAuthenticated == true)
+    {
+        @if (User.IsInRole("Customer"))
+        {
+            @if (Model.MovieShowings.Count() > 0)
+            {
+                <div>
+                    <form asp-action="Create" asp-route-SelectedMovie="@Model.MovieId" asp-controller="MovieOrders">
+                        <input type="hidden" asp-for="MovieId" />
+                        <input type="submit" value="Buy Tickets" class="btn btn-success" />
+                    </form>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <h5> There are no upcoming available showings for this movie! Create a Movie Order to see available movies with show times! </h5>
+                    <a asp-action="Create" asp-controller="MovieOrders" class="btn btn-primary">Create Movie Order</a>
+                </div>
+            }
+
+            <div>
+                <a asp-action="Create" asp-controller="MovieReviews" class="btn btn-primary">Create Movie Review</a>
+            </div>
+        }
+    }
+    else
+    {
+        <div>
+            <a asp-action="Register" asp-controller="Account" class="btn btn-primary">Create a Profile</a> to Buy Tickets!
+        </div>
+    }
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>
+

@@ -1,0 +1,129 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@model IEnumerable<Final_Project.Models.MovieShowing>
+@inject IAuthorizationService AuthorizationService
+@{
+    ViewData["Title"] = "MainStreetMovies Home";
+}
+<div class="text-center">
+    <div class="scroll">
+        <h1 class="text-white">WELCOME TO</h1>
+        <ul class="textAnimation hidden">
+            <li>M</li>
+            <li class="ghost">a</li>
+            <li class="ghost">i</li>
+            <li class="ghost">n</li>
+            <li class="spaced">S</li>
+            <li class="ghost">t</li>
+            <li class="ghost">r</li>
+            <li class="ghost">e</li>
+            <li class="ghost">e</li>
+            <li class="ghost">t</li>
+            <li class="spaced">M</li>
+            <li class="ghost">o</li>
+            <li class="ghost">v</li>
+            <li class="ghost">i</li>
+            <li class="ghost">e</li>
+            <li class="ghost">s</li>
+        </ul>
+        <br>
+        <div>
+            <a asp-action="DetailedSearch" asp-controller="Search" class="btn btn-primary">Search Movies</a>
+            <a asp-action="SearchShowings" asp-controller="Search" class="btn btn-success">Search Showings</a>
+        </div>
+    </div>
+    <br>
+    <br>
+    @if (User.Identity.IsAuthenticated)
+    {
+        @if (User.IsInRole("Customer"))
+        {
+            <a asp-action="Index" asp-controller="MovieOrders" class="btn btn-info">See Orders</a>
+            <a asp-action="DisplayGifts" asp-controller="Gifts" class="btn btn-secondary">See Gifts</a>
+            <a asp-action="Index" asp-controller="MovieReviews" class="btn btn-danger">See Reviews</a>
+            <a asp-action="GetRecommendations" asp-controller="MovieOrders" class="btn btn-primary">See Movie Recommendations</a>
+            <hr />
+        }
+
+        @if (User.IsInRole("Employee"))
+        {
+            <a asp-action="SelectCustomer" asp-controller="MovieOrders" class="btn btn-light">Create Customer Order</a>
+            <a asp-action="Index" asp-controller="MovieReviews" class="btn btn-danger">Approve Reviews</a>
+            <hr />
+        }
+        @if (User.IsInRole("Manager"))
+        {
+            <a asp-action="SelectCustomer" asp-controller="MovieOrders" class="btn btn-light">Create Customer Order</a>
+            <a asp-action="Index" asp-controller="MovieReviews" class="btn btn-danger">Approve Reviews</a>
+            <a asp-action="Index" asp-controller="RoleAdmin" class="btn btn-secondary">Manage Users</a>
+            <a asp-action="Index" asp-controller="Movies" class="btn btn-primary">Movies</a>
+            <a asp-action="Index" asp-controller="MovieShowings" class="btn btn-dark">Scheduled Showings</a>
+            <a asp-action="Index" asp-controller="Report" class="btn btn-warning">Report</a>
+            <a asp-action="Index" asp-controller="Prices" class="btn btn-success">Prices</a>
+            <hr />
+        }
+    }
+    <h3>Showings for Today</h3>
+    <table class="table table-primary">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Movie.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StartTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NumberSeatsAvailable)
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                @if (item.IsPublished == true)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Movie.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StartTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NumberSeatsAvailable)
+                        </td>
+
+                        <td>
+                            @if (User.Identity.IsAuthenticated == true)
+                            {
+                                @if (User.IsInRole("Customer"))
+                                {
+                                    <div>
+                                        <form asp-action="Create" asp-route-SelectedMovie="@item.Movie.MovieId" asp-controller="MovieOrders">
+                                            <input type="hidden" asp-for="@item.Movie.MovieId" />
+                                            <input type="submit" value="Buy Tickets" class="btn btn-success" />
+                                        </form>
+                                    </div>
+
+                                }
+                            }
+                            else
+                            {
+                                <div>
+                                    <a asp-action="Register" asp-controller="Account" class="btn btn-primary">Create a Profile</a><br> to Buy Tickets!
+                                </div>
+                            }
+                        </td>
+                    </tr>
+
+                }
+            }
+        </tbody>
+    </table>
+    <br>
+    <img class="w-50" src="~/images/svg/Movie.svg" />
+    <br>
+</div>
+

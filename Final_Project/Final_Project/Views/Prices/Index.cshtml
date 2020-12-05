@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Final_Project.Models.Price>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<br>
+
+<h1>Index</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MatineePrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TuesdayPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WeekdayPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WeekendPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SpecialPrice)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MatineePrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TuesdayPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WeekdayPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WeekendPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SpecialPrice)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.PriceID">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

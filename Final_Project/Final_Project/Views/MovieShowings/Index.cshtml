@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Final_Project.Models.MovieShowing>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<br>
+
+<h1>Showing Schedule</h1>
+
+<hr />
+@if (User.Identity.IsAuthenticated)
+{
+
+    @if (User.IsInRole("Manager"))
+    {
+        <p>
+            <a asp-action="Create" class="btn btn-primary">Schedule New Showing</a>
+        </p>
+        <p>
+            <a asp-action="SelectPublishDate" class="btn btn-success">Select a Date To Publish</a>
+        </p>
+        <div>
+            <form asp-action="Publish">
+                <input type="submit" value="Publish Entire Week's Schedule" class="btn btn-light" />
+            </form>
+        </div>
+        <br>
+    }
+}
+<div>
+    <a asp-action="Copy" asp-controller="MovieShowings" class="btn btn-dark">Copy Scheduled Days</a>
+</div>
+<br>
+<h5>Movie Showings</h5>
+
+<table class="table table-primary">
+    <tr>
+        <th>Day of the Week</th>
+        <th>Showing</th>
+        <th>Theater</th>
+        <th>Published?</th>
+        <th>Special?</th>
+        <th>Status</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime.DayOfWeek)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullShowingName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TheaterSelection)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsPublished)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsSpecial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShowingStatus)
+            </td>
+            <td>
+                @if (item.ShowingStatus != PublishStatus.Canceled && item.StartTime > DateTime.Now)
+                {
+                    <a asp-action="Edit" method="get" asp-controller="MovieShowings" asp-route-id="@item.MovieShowingID">Edit</a>
+                    <span>|</span>
+                }
+                <a asp-action="Details" asp-controller="MovieShowings" asp-route-id="@item.MovieShowingID">Details</a> |
+                @if (item.IsPublished == false && item.ShowingStatus != PublishStatus.Canceled)
+                {
+                    <a asp-action="Delete" asp-controller="MovieShowings" asp-route-id="@item.MovieShowingID">Delete</a>
+                }
+                @if (item.IsPublished == true && item.ShowingStatus != PublishStatus.Canceled)
+                {
+                    <a asp-action="Cancel" asp-controller="MovieShowings" asp-route-id="@item.MovieShowingID">Cancel</a>
+                }
+            </td>
+        </tr>
+
+    }
+</table>

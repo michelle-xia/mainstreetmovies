@@ -1,0 +1,114 @@
+﻿@model IEnumerable<Final_Project.Models.Ticket>
+
+@{
+    ViewData["Title"] = "Report";
+}
+<br>
+
+<h1>Customers Report</h1>
+
+<form asp-action="FilteredCustomers">
+    <div class="form-group">
+        <label class="control-label">Filter by Customer Username:</label>
+        @Html.DropDownList("SelectedCustomer", (SelectList)ViewBag.AllCustomers, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Filter" class="btn btn-primary" />
+    </div>
+</form>
+
+<h4>Number of Seats Sold to Customer</h4>
+<p>@ViewBag.TotalSeats</p>
+<h4>Total Revenue from Customer</h4>
+<p>@ViewBag.TotalRevenue</p>
+<br />
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MovieOrder.ConfirmationNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MovieOrder.DateOrdered)
+            </th>
+            <th>
+                Entire Order Subtotal
+            </th>
+            <th>
+                Movie Showing
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Seat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MovieOrder.UsingPopcornPoints)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MovieOrder.OrderStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MovieOrder.Customer.UserName)
+            </th>
+            <th>
+                Poporn Points For This Ticket
+            </th>
+            <th>
+                Entire Order Popcorn Points Paid
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MovieOrder.ConfirmationNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MovieOrder.DateOrdered)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MovieOrder.SubTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MovieShowing.FullShowingName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Seat)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MovieOrder.UsingPopcornPoints)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MovieOrder.OrderStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MovieOrder.Customer.UserName)
+                </td>
+                @if (item.MovieOrder.UsingPopcornPoints == true)
+                {
+                    <td>
+                        100
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        0
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.MovieOrder.PopcornPointsPaid)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

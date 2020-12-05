@@ -1,0 +1,75 @@
+﻿@model Final_Project.Models.Movie
+
+@{
+    ViewData["Title"] = "Create";
+}
+<br>
+
+<h1>Create</h1>
+
+<h4>Movie</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Genre:</label>
+                @Html.DropDownList("SelectedGenre", (SelectList)ViewBag.AllGenres, new { @class = "form-control" })
+            </div>
+
+            <a asp-action="CreateGenre" class="btn btn-success">Create Genre </a>
+
+            <div class="form-group">
+                <label asp-for="Tagline" class="control-label"></label>
+                <input asp-for="Tagline" class="form-control" />
+                <span asp-validation-for="Tagline" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReleaseDate" class="control-label"></label>
+                <input asp-for="ReleaseDate" class="form-control" />
+                <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="MPAARating">Search Type:</label>
+                <input type="radio" class="radio" asp-for="MPAARating" value="@MPAARatings.G" checked="checked" />&nbsp; G <br />
+                <input type="radio" class="radio" asp-for="MPAARating" value="@MPAARatings.PG" />&nbsp; PG <br />
+                <input type="radio" class="radio" asp-for="MPAARating" value="@MPAARatings.PG13" />&nbsp; PG-13<br />
+                <input type="radio" class="radio" asp-for="MPAARating" value="@MPAARatings.R" />&nbsp; R <br />
+                <input type="radio" class="radio" asp-for="MPAARating" value="@MPAARatings.NC17" />&nbsp; NC-17 <br />
+                <input type="radio" class="radio" asp-for="MPAARating" value="@MPAARatings.Unrated" />&nbsp; Unrated <br />
+
+            </div>
+            <div class="form-group">
+                <label asp-for="MovieOverview" class="control-label"></label>
+                <input asp-for="MovieOverview" class="form-control" />
+                <span asp-validation-for="MovieOverview" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Actors" class="control-label"></label>
+                <input asp-for="Actors" class="form-control" />
+                <span asp-validation-for="Actors" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Runtime" class="control-label"></label>
+                <input asp-for="Runtime" class="form-control" />
+                <span asp-validation-for="Runtime" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

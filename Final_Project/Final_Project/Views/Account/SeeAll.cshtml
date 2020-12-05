@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Final_Project.Models.AppUser>
+
+@{
+    ViewData["Title"] = "SeeAll";
+}
+<br>
+
+<p>
+    <a asp-action="Register">Register New</a>
+</p>
+
+<h1>View and Edit Accounts</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+
+                <td>
+                    <a asp-action="ChangeOtherAccount" asp-route-id="@item.Email">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Email">Details</a> |
+                    <a asp-action="ChangeOtherPassword" asp-route-id="@item.Email">Change Password</a>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @if (User.IsInRole("Manager"))
+                        {
+                            <span>|</span>
+                            <a asp-action="Fire" asp-controller="RoleAdmin" asp-route-userId="@item.Id">Fire</a>
+                            <span>|</span>
+                            <a asp-action="PromoteToManager" asp-controller="RoleAdmin" asp-route-userId="@item.Id">Promote To Manager</a>
+                            <span>|</span>
+                            <a asp-action="Rehire" asp-controller="RoleAdmin" asp-route-userId="@item.Id">Rehire</a>
+                        }
+                    }
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
